@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "blog_dg"
+version = "0.1.0"
+description = "Personal blog based on DjangoGirls tutorial"
+authors = ["Gary Martin <gary.martin@physics.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^3.2.3"
+markdown = "^3.3.4"
+
+[tool.poetry.dev-dependencies]
+selenium = "^3.141.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
