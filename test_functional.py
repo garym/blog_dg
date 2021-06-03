@@ -3,4 +3,7 @@ from selenium import webdriver
 browser = webdriver.Firefox()
 browser.get('http://localhost:8000')
 
-assert 'Django' in browser.title
+
+def test_get_title():
+    assert 'success' in browser.title
+
