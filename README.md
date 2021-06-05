@@ -11,6 +11,7 @@ dependencies, and complete the basic database setup:
 poetry install
 poetry run python manage.py makemigrations
 poetry run python manage.py migrate
+poetry run python manage.py createsuperuser --username=admin --email=admin@site.example
 ```
 
 ## Development
