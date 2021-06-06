@@ -3,6 +3,9 @@ name = "blog_dg"
 version = "0.1.0"
 description = "Personal blog based on DjangoGirls tutorial"
 authors = ["Gary Martin <gary.martin@physics.org>"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/garym/blog_dg"
 
 [tool.poetry.dependencies]
 python = "^3.8"
