@@ -3,3 +3,4 @@ tags
 *.log
 .venv/
 __pycache__/
+secret_key.py
