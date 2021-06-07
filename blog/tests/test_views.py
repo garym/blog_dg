@@ -79,3 +79,27 @@ def test_post_detail_view_hides_unpublished_item_details(client, post1):
     assert response.status_code == 200
     assert post1.title in content
     assert post1.text in content
+
+
+@pytest.mark.django_db
+def test_post_list_view_provides_new_post_link(client):
+    response = client.get(reverse('post_list'))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert f"href=\"{reverse('post_new')}\"" in content
+
+
+@pytest.mark.django_db
+def test_post_detail_provides_new_post_link(client, post1):
+    response = client.get(reverse('post_detail', kwargs={'pk': post1.id}))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert f"href=\"{reverse('post_new')}\"" in content
+
+
+@pytest.mark.django_db
+def test_post_new_provides_new_post_link(client):
+    response = client.get(reverse('post_new'))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert f"href=\"{reverse('post_new')}\"" in content
