@@ -34,12 +34,15 @@ test:
 	poetry run pytest
 .PHONY: test
 
+unittest: unittest-blog
+.PHONY: unittest
+
 unittest-blog:
-	poetry run pytest $(subst unittest-,,$@)
+	poetry run pytest $(subst unittest-,,$@) --pdb
 .PHONY: unittest-blog
 
 functest:
-	poetry run pytest test_functional.py
+	poetry run pytest test_functional.py --pdb
 .PHONY: functest
 
 clean-all: clean-db clean-venv

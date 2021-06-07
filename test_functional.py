@@ -43,3 +43,27 @@ def test_using_admin_site_to_add_post(browser, live_server, logged_in_admin):
 
     success_link = browser.find_element_by_css_selector(".success a")
     assert success_link.text == 'My first post title'
+
+
+def test_front_page_add_post_journey(browser, live_server, logged_in_admin):
+    # User goes to front page
+    if f'{live_server}/' != browser.current_url:
+        browser.get(f'{live_server}/')
+
+    # User notes that there is a post list but it is currently empty
+    assert False
+
+    # User spots a button to compose a new post
+    assert False
+
+    # User adds a post
+    assert False
+
+    # User can tell that the post is not published
+    assert False
+
+    # User publishes post
+    assert False
+
+    # User can see the post is published
+    assert False
