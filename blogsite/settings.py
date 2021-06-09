@@ -21,14 +21,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
-    from .secret_key import SECRET_KEY
+    from .secret_key import (
+        SECRET_KEY,
+        DEBUG,
+        ALLOWED_HOSTS,
+        SECURE_SSL_REDIRECT,
+        SECURE_HSTS_INCLUDE_SUBDOMAINS,
+        SECURE_HSTS_SECONDS,
+        CSRF_COOKIE_SECURE,
+        SESSION_COOKIE_SECURE,
+        MEDIA_URL,
+        STATIC_ROOT,
+        MEDIA_ROOT,
+    )
 except ImportError:
     SECRET_KEY = 'django-insecure-33t+kl4u9$it^r!&bp1g1i*%1d7kt-6_n699+(+n-r2qs&-)41'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 
 # Application definition
