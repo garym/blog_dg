@@ -40,10 +40,11 @@ def test_root_url_resolves_to_post_list():
 
 
 @pytest.mark.django_db
-def test_home_page_shows_post_list(client):
+def test_home_page_shows_post_list(client, post1):
+    post1.publish()
     response = client.get(reverse('post_list'))
     assert response.status_code == 200
-    assert 'Django Girls' in response.content.decode()
+    assert post1.title in response.content.decode()
 
 
 @pytest.mark.django_db
@@ -82,7 +83,16 @@ def test_post_detail_view_hides_unpublished_item_details(client, post1):
 
 
 @pytest.mark.django_db
-def test_post_list_view_provides_new_post_link(client):
+def test_post_list_view_hides_new_post_link_for_anon_user(client):
+    response = client.get(reverse('post_list'))
+    content = response.content.decode()
+    assert response.status_code == 200
+    assert f"href=\"{reverse('post_new')}\"" not in content
+
+
+@pytest.mark.django_db
+def test_post_list_view_provides_new_post_link(client, user_alice):
+    client.force_login(user_alice)
     response = client.get(reverse('post_list'))
     content = response.content.decode()
     assert response.status_code == 200
@@ -90,16 +100,9 @@ def test_post_list_view_provides_new_post_link(client):
 
 
 @pytest.mark.django_db
-def test_post_detail_provides_new_post_link(client, post1):
+def test_post_detail_provides_new_post_link(client, user_alice, post1):
+    client.force_login(user_alice)
     response = client.get(reverse('post_detail', kwargs={'pk': post1.id}))
-    content = response.content.decode()
-    assert response.status_code == 200
-    assert f"href=\"{reverse('post_new')}\"" in content
-
-
-@pytest.mark.django_db
-def test_post_new_provides_new_post_link(client):
-    response = client.get(reverse('post_new'))
     content = response.content.decode()
     assert response.status_code == 200
     assert f"href=\"{reverse('post_new')}\"" in content

@@ -17,5 +17,12 @@ class Post(models.Model):
         self.published_date = timezone.now()
         self.save()
 
+    def unpublish(self):
+        self.published_date = None
+        self.save()
+
+    def page_title(self):
+        return f"Post #{self.id} ({self.title})"
+
     def __str__(self):
         return self.title
