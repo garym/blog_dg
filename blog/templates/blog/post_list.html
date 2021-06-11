@@ -1,4 +1,6 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load bleach_tags %}
 
 {% block content %}
   {% for post in posts %}
@@ -6,8 +8,8 @@
       <time class="date">
         {{ post.published_date }}
       </time>
-      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-      <p>{{ post.text|linebreaksbr }}</p>
+      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title | bleach | truncatewords:25}}</a></h2>
+      <p>{{ post.text | md | truncatewords_html:20 | safe }}</p>
     </article>
   {% endfor %}
 {% endblock %}

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bleach',
     'blog.apps.BlogConfig',
 ]
 
@@ -141,3 +142,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 APP_TITLE = "Allegary's Blog"
+
+BLEACH_ALLOWED_TAGS = ['p', 'b', 'i', 'u', 'em', 'strong', 'a']
+BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style']
+BLEACH_ALLOWED_STYLES = [
+    'font-family', 'font-weight', 'text-decoration', 'font-variant']
+BLEACH_STRIP_TAGS = True
+BLEACH_STRIP_COMMENTS = True

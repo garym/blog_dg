@@ -11,6 +11,7 @@ repository = "https://github.com/garym/blog_dg"
 python = "^3.8"
 django = "^3.2.3"
 markdown = "^3.3.4"
+django-bleach = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 selenium = "^3.141.0"
