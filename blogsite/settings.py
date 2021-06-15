@@ -141,7 +141,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
-APP_TITLE = "Allegary's Blog"
+APP_TITLE = "Gary Martin"
 
 BLEACH_ALLOWED_TAGS = ['p', 'b', 'i', 'u', 'em', 'strong', 'a']
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style']

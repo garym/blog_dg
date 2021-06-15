@@ -22,7 +22,7 @@ class Post(models.Model):
         self.save()
 
     def page_title(self):
-        return f"Post #{self.id} ({self.title})"
+        return self.title
 
     def __str__(self):
         return self.title

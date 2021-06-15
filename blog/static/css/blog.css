@@ -1,8 +1,23 @@
+body {
+  background-color: #e7e7e7;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #FFFFFF;
+  }
+}
+
 .page-header {
-    background-color: #0051C2;
+    background-color: #8282A2;
     margin-top: 0;
     margin-bottom: 40px;
     padding: 20px 20px 20px 40px;
+}
+@media (prefers-color-scheme: dark) {
+  .page-header {
+    background-color: #000000;
+  }
 }
 
 .page-header h1,
@@ -10,8 +25,15 @@
 .page-header h1 a:visited,
 .page-header h1 a:active {
     color: #ffffff;
-    font-size: 36pt;
+    font-size: 24pt;
     text-decoration: none;
+}
+
+a.post-title-link {
+  text-decoration: none;
+}
+a.post-title-link:hover {
+  text-decoration: underline;
 }
 
 h1,
@@ -39,7 +61,7 @@ h4 {
 .top-menu:visited {
     color: #ffffff;
     float: right;
-    font-size: 26pt;
+    font-size: 18pt;
     margin-right: 20px;
 }
 
@@ -51,8 +73,13 @@ h4 {
 .post h2 a:visited {
     color: #000000;
 }
+@media (prefers-color-scheme: dark) {
+  .post h2 a,
+  .post h2 a:visited {
+    color: #ffffff;
+  }
+}
 
-.post > .date,
 .post > .actions {
     float: right;
 }

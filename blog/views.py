@@ -11,7 +11,7 @@ def post_list(request):
     ).order_by('published_date')
     context = {
         'posts': posts,
-        'page_title': 'Post List',
+        'page_title': 'Blog',
     }
     return render(request, 'blog/post_list.html', context)
 
@@ -23,7 +23,7 @@ def post_draft_list(request):
     ).order_by('created_date')
     context = {
         'posts': posts,
-        'page_title': 'Draft Post List',
+        'page_title': 'Drafts',
     }
     return render(request, 'blog/post_draft_list.html', context)
 
@@ -32,7 +32,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     context = {
         'post': post,
-        'page_title': f'{post.page_title()} - Detail',
+        'page_title': post.page_title(),
     }
     return render(request, 'blog/post_detail.html', context)
 
@@ -45,7 +45,7 @@ def post_new(request):
 @login_required
 def post_edit(request, pk=None):
     post = None if pk is None else get_object_or_404(Post, pk=pk)
-    heading = "New post" if pk is None else "Edit post"
+    heading = "New post" if pk is None else f"Edit: {post.title}"
 
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)

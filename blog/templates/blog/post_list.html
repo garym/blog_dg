@@ -5,11 +5,11 @@
 {% block content %}
   {% for post in posts %}
     <article class="post">
+      <h2><a class="post-title-link" href="{% url 'post_detail' pk=post.pk %}">{{ post.title | bleach }}</a></h2>
       <time class="date">
         {{ post.published_date }}
       </time>
-      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title | bleach | truncatewords:25}}</a></h2>
-      <p>{{ post.text | md | truncatewords_html:20 | safe }}</p>
+      <p>{{ post.text | md | safe }}</p>
     </article>
   {% endfor %}
 {% endblock %}
