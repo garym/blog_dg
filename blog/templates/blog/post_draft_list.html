@@ -5,7 +5,7 @@
 {% block content %}
   {% for post in posts %}
     <div class="post">
-      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title | bleach | truncatewords:25 }}</a></h2>
+      <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title | bleach | truncatewords:25 }}</a></h2>
       <p class="date">created: {{ post.created_date|date:"l, jS F Y" }}</p>
       <p>{{ post.text | md | truncatewords_html:200 | safe }}</p>
     </div>

@@ -56,7 +56,7 @@ def test_post_list_view_shows_published_item_details(client, post1, post2):
     assert response.status_code == 200
     assert post2.title in content
     assert post2.text in content
-    assert f"href=\"{reverse('post_detail', kwargs={'pk': post2.id})}\"" in content
+    assert f"href=\"{reverse('post_detail', kwargs={'slug': post2.slug})}\"" in content
 
 
 @pytest.mark.django_db
@@ -68,14 +68,14 @@ def test_post_list_view_hides_unpublished_item_details(client, post1, post2):
     assert response.status_code == 200
     assert post1.title not in content
     assert post1.text not in content
-    assert f"href=\"{reverse('post_detail', kwargs={'pk': post1.id})}\"" not in content
+    assert f"href=\"{reverse('post_detail', kwargs={'slug': post1.slug})}\"" not in content
 
 
 @pytest.mark.django_db
 def test_post_detail_view_hides_unpublished_item_details(client, post1):
     post1.publish()
 
-    response = client.get(reverse('post_detail', kwargs={'pk': post1.id}))
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
     content = response.content.decode()
     assert response.status_code == 200
     assert post1.title in content
@@ -102,7 +102,7 @@ def test_post_list_view_provides_new_post_link(client, user_alice):
 @pytest.mark.django_db
 def test_post_detail_provides_new_post_link(client, user_alice, post1):
     client.force_login(user_alice)
-    response = client.get(reverse('post_detail', kwargs={'pk': post1.id}))
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
     content = response.content.decode()
     assert response.status_code == 200
     assert f"href=\"{reverse('post_new')}\"" in content

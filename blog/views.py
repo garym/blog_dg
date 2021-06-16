@@ -34,8 +34,8 @@ def post_draft_list(request):
     return render(request, 'blog/post_draft_list.html', context)
 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     context = {
         'post': post,
         'page_title': post.page_title(),
@@ -49,9 +49,9 @@ def post_new(request):
 
 
 @login_required
-def post_edit(request, pk=None):
-    post = None if pk is None else get_object_or_404(Post, pk=pk)
-    heading = "New post" if pk is None else f"Edit: {post.title}"
+def post_edit(request, slug=None):
+    post = None if slug is None else get_object_or_404(Post, slug=slug)
+    heading = "New post" if slug is None else f"Edit: {post.title}"
 
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
@@ -59,7 +59,7 @@ def post_edit(request, pk=None):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
 
@@ -72,21 +72,21 @@ def post_edit(request, pk=None):
 
 
 @login_required
-def post_publish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_publish(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.publish()
-    return redirect('post_detail', pk=pk)
+    return redirect('post_detail', slug=slug)
 
 
 @login_required
-def post_unpublish(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_unpublish(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.unpublish()
-    return redirect('post_detail', pk=pk)
+    return redirect('post_detail', slug=slug)
 
 
 @login_required
-def post_remove(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_remove(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.delete()
     return redirect('post_list')
