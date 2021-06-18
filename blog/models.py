@@ -29,6 +29,7 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        self.validate_unique()
         super().save(*args, **kwargs)
 
     def __str__(self):

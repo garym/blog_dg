@@ -13,7 +13,9 @@ class PostForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         slug = slugify(cleaned_data['title'])
-        if Post.objects.filter(slug=slug):
+        slug_posts = Post.objects.filter(slug=slug)
+        if slug_posts and slug_posts.first().id != self.instance.id:
             raise ValidationError(
                 "Current Title would create a non-unique 'slug'"
             )
+        return cleaned_data

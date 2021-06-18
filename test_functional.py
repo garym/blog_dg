@@ -1,3 +1,4 @@
+from django.urls import reverse
 import pytest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -51,21 +52,50 @@ def test_front_page_add_post_journey(browser, live_server, logged_in_admin):
     if f'{live_server}/' != browser.current_url:
         browser.get(f'{live_server}/')
 
-    # User notes that there is a post list but it is currently empty
-    #assert False
-
     # User spots a button to compose a new post
     browser.find_element_by_name('new_post_link').click()
     assert f'{live_server}/post/new/' == browser.current_url
 
     # User adds a post
     browser.find_element_by_name('title').send_keys('My first post title')
-    browser.find_element_by_name('text').send_keys('This is the text of my first post')
+    browser.find_element_by_name('text').send_keys('This is the text of my first post.')
     browser.find_element_by_css_selector('button.save').click()
 
     # User finds themselves on the Post detail page
-    assert browser.current_url.startswith(f'{live_server}/post/')
-    assert f'{live_server}/post/new/' != browser.current_url
+    post_path = reverse('post_detail', kwargs={'slug': 'my-first-post-title'})
+    assert f'{live_server}{post_path}' == browser.current_url
+
+    # User decides to edit the post
+    browser.find_element_by_name('edit').click()
+    edit_path = reverse('post_edit', kwargs={'slug': 'my-first-post-title'})
+    assert f'{live_server}{edit_path}' == browser.current_url
+    browser.find_element_by_name('text').send_keys(' This is more text for my first post.')
+    browser.find_element_by_css_selector('button.save').click()
+
+    # and saving again is successful
+    assert f'{live_server}{post_path}' == browser.current_url
+
+
+def test_cannot_add_two_posts_with_same_title(browser, live_server, logged_in_admin):
+    new_path = reverse('post_new')
+    post_path = reverse('post_detail', kwargs={'slug': 'unique'})
+
+    browser.get(f"{live_server}{new_path}")
+
+    browser.find_element_by_name('title').send_keys('unique')
+    browser.find_element_by_name('text').send_keys('Can add unique title')
+    browser.find_element_by_css_selector('button.save').click()
+
+    assert f'{live_server}{post_path}' == browser.current_url
+
+    browser.get(f"{live_server}{new_path}")
+
+    browser.find_element_by_name('title').send_keys('unique')
+    browser.find_element_by_name('text').send_keys('Cannot add nonunique title')
+    browser.find_element_by_css_selector('button.save').click()
+
+    assert f'{live_server}{new_path}' == browser.current_url
+    assert 'non-unique' in browser.find_element_by_css_selector('.errorlist > li').text
 
 
 def test_anon_user_cannot_add_post(browser, live_server):
