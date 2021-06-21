@@ -37,9 +37,17 @@ def post_draft_list(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+
+    if not request.user.is_authenticated:
+        if slug not in request.session:
+            request.session[slug] = slug
+            post.page_hits.count += 1
+            post.page_hits.save()
+
     context = {
         'post': post,
         'page_title': post.page_title(),
+        'hit_count': post.page_hits.count
     }
     return render(request, 'blog/post_detail.html', context)
 

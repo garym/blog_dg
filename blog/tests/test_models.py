@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from ..models import Post
+from ..models import PageHitData, Post
 
 
 @pytest.fixture
@@ -50,3 +50,8 @@ def test_publish_sets_published_date(post_a):
     time_after = timezone.now()
 
     assert time_before < post_a.published_date < time_after
+
+
+@pytest.mark.django_db
+def test_post_has_has_hit_count(post_a):
+    assert 0 == post_a.page_hits.count

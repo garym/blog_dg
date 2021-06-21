@@ -30,5 +30,6 @@
       </time>
     {% endif %}
     <p>{{ post.text | md | safe }}</p>
+    <span class="hit-count">Post views (estimate): <page-hits>{{ hit_count }}</page-hits></span>
   </article>
 {% endblock %}

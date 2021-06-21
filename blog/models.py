@@ -32,5 +32,18 @@ class Post(models.Model):
         self.validate_unique()
         super().save(*args, **kwargs)
 
+        if not hasattr(self, 'page_hits'):
+            PageHitData.objects.create(post=self)
+
     def __str__(self):
         return self.title
+
+
+class PageHitData(models.Model):
+    post = models.OneToOneField(
+        'Post',
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name='page_hits',
+    )
+    count = models.PositiveIntegerField(default=0)

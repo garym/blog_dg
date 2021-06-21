@@ -106,3 +106,38 @@ def test_post_detail_provides_new_post_link(client, user_alice, post1):
     content = response.content.decode()
     assert response.status_code == 200
     assert f"href=\"{reverse('post_new')}\"" in content
+
+
+@pytest.mark.django_db
+def test_post_detail_page_count_increment(client, post1):
+    expected_count = post1.page_hits.count + 1
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
+    assert response.status_code == 200
+    assert expected_count == Post.objects.get(id=post1.id).page_hits.count
+
+
+@pytest.mark.django_db
+def test_post_detail_page_count_increments_once_per_user(client, post1):
+    expected_count = post1.page_hits.count + 1
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
+    assert response.status_code == 200
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
+    assert response.status_code == 200
+    assert expected_count == Post.objects.get(id=post1.id).page_hits.count
+
+
+@pytest.mark.django_db
+def test_post_detail_no_page_count_increments_when_logged_in(client, user_alice, post1):
+    client.force_login(user_alice)
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
+    assert response.status_code == 200
+    assert post1.page_hits.count == Post.objects.get(id=post1.id).page_hits.count
+
+
+@pytest.mark.django_db
+def test_post_detail_displays_latest_page_count(client, post1):
+    response = client.get(reverse('post_detail', kwargs={'slug': post1.slug}))
+    content = response.content.decode()
+    post = Post.objects.get(slug=post1.slug)
+    assert response.status_code == 200
+    assert f'<page-hits>{post.page_hits.count}</page-hits>' in content
